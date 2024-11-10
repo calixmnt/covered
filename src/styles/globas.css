@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Radio+Canada:ital,wght@0,300..700;1,300..700&display=swap');
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /*outline: solid 1px red;*/
+}
+
+:root {
+    --color-background: #1e1f22; /*#181818*/
+    --color-surface: #2A2A2A;
+    --color-background-alt: #20232A;
+    --color-surface-alt: #33363E;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #B3B3B3;
+    --color-text-muted: #727272;
+
+    --dark: #fef0fc;
+
+    --color-accent-primary: #084887;
+    --color-accent-secondary: #9DCBBA;
+    --color-highlight: #CEB1BE;
+
+    --color-accent-hover: #07699a;
+    --color-highlight-hover: #d7a5b3;
+
+    --color-success: #9DCBBA;
+    --color-error: #e53935;
+
+    --color-border: #2e2e2e;
+    --color-overlay: rgba(0, 0, 0, 0.6);
+    --color-input-background: #333333;
+    --color-input-placeholder: #888888;
+    --gradient-background: linear-gradient(135deg, #084887, #9DCBBA);
+}
+
+:root.light-mode {
+    --color-background: #FFFFFF;
+    --color-surface: #F3F3F3;
+    --color-background-alt: #E6E6E6;
+    --color-surface-alt: #DADADA;
+    --color-text-primary: #83928c;
+    --color-text-secondary: #333333;
+    --color-text-muted: #555555;
+
+    --dark: #0e0f0c;
+
+    --color-accent-primary: #084887;
+    --color-accent-secondary: #9DCBBA;
+    --color-highlight: #CEB1BE;
+
+    --color-accent-hover: #07699a;
+    --color-highlight-hover: #d7a5b3;
+
+    --color-success: #388e3c;
+    --color-error: #d32f2f;
+
+    --color-border: #dddddd;
+    --color-overlay: rgba(255, 255, 255, 0.6);
+    --color-input-background: #eeeeee;
+    --color-input-placeholder: #888888;
+    --gradient-background: linear-gradient(135deg, #084887, #9DCBBA);
+
+}

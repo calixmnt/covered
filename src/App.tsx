@@ -1,8 +1,13 @@
+import Header from "./components/Header.tsx";
+import SearchBar from "./components/SearchBar.tsx";
+import Hero from "./components/Hero.tsx";
+
 function App() {
 
     return (
         <>
-            Hello world
+            <Hero/>
+            <SearchBar placeholder={"Search for your favorite cover here"} isTopPosition={false}/>
         </>
     )
 }
