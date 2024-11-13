@@ -19,10 +19,9 @@ function SearchBar({isTopPosition = false, placeholder}: SearchBarProps) {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<SVGElement, MouseEvent>) => {
         e.preventDefault();
         const result = await searchForItem(searchTerm);
-        //TODO : au lieu d'une nouvelle page, conditionner juste le composant des covers
         if (!result) return redirect("/not-found");
         redirect("/covers");
-        // console.log(result?.albums.items[0].images[1]);
+        console.log(result?.albums.items);
         setSearchTerm("");
     }
 

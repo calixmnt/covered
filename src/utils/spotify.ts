@@ -9,9 +9,9 @@ type TokenResponse = {
     expires_in : number;
 }
 
-type SearchType = "artist" | "album" | "track";
+export type SearchType = "artist" | "album" | "track";
 
-type SearchResponse = {
+export type SearchResponse = {
     tracks: Pagination<Track>;
     albums: Pagination<Album>;
     artists: Pagination<Artist>;
@@ -50,3 +50,27 @@ export async function searchForItem(searchTerm:string, type:SearchType='album') 
     const result:SearchResponse = await response.json()
     return result;
 }
+
+export function getRandomItemLoader(type: 'album' | 'track') {
+    return async function loader() {
+        const tokenResponse = await getToken();
+        if (!tokenResponse) return;
+
+        const searchTerm = 'a';
+        const response = await fetch(`https://api.spotify.com/v1/search?q=${searchTerm}&type=${type}&limit=50`, {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' + tokenResponse.access_token },
+        });
+
+        if (!response.ok) throw new Error(`Spotify search request failed with status ${response.status}`);
+
+        const data: SearchResponse = await response.json();
+
+        const items = type === 'album' ? data.albums.items : data.tracks.items;
+        if (items.length === 0) return null;
+
+        const randomItem = items[Math.floor(Math.random() * items.length)];
+        return randomItem;
+    };
+}
+

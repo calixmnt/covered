@@ -28,8 +28,8 @@ const covers = [
     }
 ];
 
-function CoversPage() {
 
+function CoversPage() {
     return (
         <div>
             <SearchBar isTopPosition={true} placeholder={"Have fun, search your cover"}/>

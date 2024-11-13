@@ -12,7 +12,6 @@ export function useTheme() {
 
     const [theme, setTheme] = useState<ThemeMode>(getFavoriteTheme);
 
-
     const switchMode = (mode: ThemeMode) => {
         if (mode === "dark") {
             document.documentElement.classList.remove('light-mode');

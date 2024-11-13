@@ -1,7 +1,7 @@
 import {Logo} from "./Logo.tsx";
-import React, {useState} from "react";
+import {useState} from "react";
 import {ThemeToggle} from "./ThemeToggle.tsx";
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 export function Header() {
 
@@ -20,12 +20,15 @@ export function Header() {
                 <Logo/>
                 <nav className={`nav ${isOpen ? "nav--visible" : ""}`}>
                     <ul className="nav__list">
-                        <li className="nav__item"><Link onClick={handleClick} to="/" className="nav__link">Home</Link>
+                        <li className="nav__item"><NavLink onClick={handleClick} to="/"
+                                                           className="nav__link">Home</NavLink>
                         </li>
-                        <li className="nav__item"><Link onClick={handleClick} to="/covers" className="nav__link">Have
-                            fun</Link></li>
-                        <li className="nav__item"><Link onClick={handleClick} to="/useful-links"
-                                                        className="nav__link">Links</Link></li>
+                        <li className="nav__item">
+                            <NavLink onClick={handleClick} to="/covers" className="nav__link">Have fun
+                            </NavLink>
+                        </li>
+                        <li className="nav__item"><NavLink onClick={handleClick} to="/surprise-of-the-day"
+                                                           className="nav__link">discovery of the day</NavLink></li>
                         <li className="nav__item cursor-pointer inline-block" onClick={handleClick}>
                             <ThemeToggle/>
                         </li>

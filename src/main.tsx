@@ -3,34 +3,32 @@ import {createRoot} from 'react-dom/client'
 import './styles/globas.css';
 import './styles/index.css';
 import App from './App.tsx'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
 import CoversPage from "./components/CoversPage.tsx";
+import RootLayout from "./layouts/RootLayout.tsx";
 import ErrorPage from "./components/ErrorPage.tsx";
-import Layout from "./components/Layout.tsx";
 import CoverDetails from "./components/CoverDetails.tsx";
+import {getRandomItemLoader} from "./utils/spotify.ts";
 
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Layout>
-            <App/>
-        </Layout>,
-    },
-    {
-        path: "/covers",
-        element: <Layout>
-            <CoversPage/>
-        </Layout>,
-    },
-    {
-      path:"/cover/:coverId",
-      element: <Layout><CoverDetails/></Layout>
-    },
-    {
-        path: "/not-found",
-        element: <ErrorPage/>
-    }
-])
+
+const router = createBrowserRouter(
+    createRoutesFromElements(
+        <Route path="/" element={<RootLayout />}>
+            <Route index element={<App/>}/>
+            <Route
+                path={"covers"}
+                element={<CoversPage/>}
+            />
+            <Route
+                path={"surprise-of-the-day"}
+                element={<CoverDetails/>}
+                loader={getRandomItemLoader('track')}
+            />
+            <Route path={"cover/:id"} element={<CoverDetails/>}/>
+            <Route path={"*"} element={<ErrorPage />}/>
+        </Route>
+    )
+)
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
