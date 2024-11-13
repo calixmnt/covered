@@ -24,6 +24,8 @@ button {
     border: initial;
     outline: initial; /* create alternative for focus state */
     background-color: initial;
+    color: inherit;
+    cursor: pointer;
 }
 
 input {

@@ -1,5 +1,3 @@
-import React from "react";
-
 function CoverDetails() {
     return (
         <section className="cover-details container">
