@@ -1,6 +1,10 @@
 import {useLoaderData} from "react-router-dom";
 import {Track} from "../interfaces";
 import CoverTag from "./CoverTag.tsx";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
+
 
 function CoverDetails() {
 
@@ -17,10 +21,12 @@ function CoverDetails() {
     return (
         <section className="cover-details container">
             <div className="cover-details__image-box">
-                <img
+                <LazyLoadImage
+                    alt={`Cover Art of ${albumName}`}
+                    className={"cover-details__image"}
+                    placeholderSrc={spotifyItem.album.images[2].url}
                     src={spotifyItem.album.images[0].url}
-                    alt="Cover Art"
-                    className="cover-details__image"
+                    effect={"blur"}
                 />
             </div>
             <div className="cover-details__description">

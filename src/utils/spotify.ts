@@ -1,4 +1,5 @@
 import {Album, Artist, Pagination, Track} from "../interfaces";
+import {getRandomLetter} from "./index.ts";
 
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 const secretId = import.meta.env.VITE_SPOTIFY_SECRET_ID;
@@ -56,7 +57,7 @@ export function getRandomItemLoader(type: 'album' | 'track') {
         const tokenResponse = await getToken();
         if (!tokenResponse) return;
 
-        const searchTerm = 'a';
+        const searchTerm = getRandomLetter();
         const response = await fetch(`https://api.spotify.com/v1/search?q=${searchTerm}&type=${type}&limit=50`, {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' + tokenResponse.access_token },

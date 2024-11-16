@@ -238,19 +238,81 @@ section {
 
 .tag {
     display: inline-block;
-    font-size: .8rem;
-    padding: .3rem .6rem;
-    margin: .8rem 0;
-    border-radius: 500px;
+    font-size: 1rem;
     text-align: center;
-    border: solid 1px var(--color-accent-primary);
+    border: solid 1px var(--dark);
+    padding: .4em;
+    margin: .4em 0;
 }
 
 .hero__title {
     font-size: 4rem;
     /*font-size: clamp(60px, 2em, 4rem);*/
     color: var(--dark);
+    animation: fadeIn 1s ease-in-out;
+}
 
+/* Categories section */
+.categories {
+    margin-top: 1.5em;
+    text-align: center;
+}
+
+.categories__title {
+    font-size: 1.5em;
+    color: var(--color-text-primary);
+    margin-bottom: 1em;
+}
+
+.categories__list {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+}
+
+.category__item {
+    background-color: var(--color-surface);
+    /*color: var(--dark);*/
+    padding: 0.5em 1em;
+    cursor: default;
+    transition: background-color 0.3s;
+}
+
+.category__item:hover {
+    background-color: var(--color-accent-primary);
+    color: var(--color-text-primary);
+}
+
+/* Recommendations section */
+.recommendations {
+    margin-top: 2em;
+    text-align: center;
+}
+
+.recommendations__title {
+    font-size: 1.5em;
+    color: var(--color-text-primary);
+    margin-bottom: 1em;
+}
+
+.recommendations__list {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+}
+
+.recommendation__item {
+    background-color: var(--color-surface);
+    padding: 1em;
+    border-radius: 8px;
+    width: 100px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.recommendation__item:hover {
+    transform: scale(1.05);
 }
 
 /*SearchBar*/
@@ -282,16 +344,25 @@ section {
     background-color: var(--color-input-background);
     border: 1px solid var(--color-border);
     outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .search-bar::placeholder {
     color: var(--color-input-placeholder);
 }
 
+.search-bar:hover {
+    background-color: var(--color-background-alt);
+}
+
+.search-bar:focus {
+}
+
 .search-bar:focus {
     border-color: var(--color-accent-primary);
     box-shadow: 0 0 1px var(--color-accent-primary);
+    background-color: #fff;
+    color: #0e0f0c;
 }
 
 .search-bar__icon {
