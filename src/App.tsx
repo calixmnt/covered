@@ -12,6 +12,7 @@ function App() {
             <SearchBar
                 placeholder={"Search for your favorite cover here"}
                 isTopPosition={false}
+                redirectTo='/covers'
             />
         </>
     )

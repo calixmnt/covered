@@ -427,7 +427,7 @@ section {
     color: var(--color-text-muted);
 }
 
-/* CoverDetails */
+/* CoverDetailsPage */
 .cover-details {
     display: flex;
     flex-direction: column;
