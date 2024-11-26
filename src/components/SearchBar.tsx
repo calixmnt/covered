@@ -37,7 +37,7 @@ function SearchBar({
         replace: true,
       });
     }
-    setSearchTerm("");
+    // setSearchTerm("");
   };
 
   return (

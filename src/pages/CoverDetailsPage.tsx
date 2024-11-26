@@ -1,17 +1,18 @@
 import {useLoaderData, useParams} from "react-router-dom";
 import {Track} from "../interfaces";
 import CoverTag from "../components/CoverTag.tsx";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import {LazyLoadImage} from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/blur.css';
-
 
 
 function CoverDetailsPage() {
 
-    // const { coverId } = useParams();
-    const spotifyItem = useLoaderData() as Track;
+    const {coverId} = useParams();
 
-    // console.log(spotifyItem);
+    // console.log(coverId);
+
+    const spotifyItem = useLoaderData() as Track;
+    console.log(spotifyItem);
 
     const albumName = spotifyItem.album.name;
     const trackName = spotifyItem.name;

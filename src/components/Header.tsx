@@ -31,15 +31,6 @@ export function Header() {
             <li className="nav__item">
               <NavLink
                   onClick={handleClick}
-                  to="/covers"
-                  className="nav__link"
-              >
-                Covers
-              </NavLink>
-            </li>
-            <li className="nav__item">
-              <NavLink
-                  onClick={handleClick}
                   to="/have-fun"
                   className="nav__link"
               >
