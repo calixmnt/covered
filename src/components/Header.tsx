@@ -40,6 +40,15 @@ export function Header() {
             <li className="nav__item">
               <NavLink
                   onClick={handleClick}
+                  to="/artists"
+                  className="nav__link"
+              >
+                Artists
+              </NavLink>
+            </li>
+            <li className="nav__item">
+              <NavLink
+                  onClick={handleClick}
                   to="/surprise-of-the-day"
                   className="nav__link"
               >

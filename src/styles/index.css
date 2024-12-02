@@ -587,6 +587,185 @@ section {
 
 }
 
+.artist-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.artist-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.artist-image {
+    width: 100%;
+    max-width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 2px solid #eee;
+}
+
+.artist-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.artist-info h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 10px 0;
+}
+
+.artist-info .artist-genres {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.artist-info a {
+    display: inline-block;
+    text-decoration: none;
+    color: #1db954; /* Spotify green */
+    font-weight: 500;
+    margin-top: 5px;
+    transition: color 0.3s ease;
+}
+
+.artist-info a:hover {
+    color: #1aa34a; /* Slightly darker green */
+}
+
+
+/* Conteneur principal */
+.artist-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* Titre de la page */
+.artist-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+/* Section des albums */
+.albums-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Carte d'un album */
+.album-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.album-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Image de l'album */
+.album-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Titre de l'album */
+.album-title {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: #555;
+}
+
+/* Détails de l'album */
+.album-details {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+/* Message si aucun album */
+.no-albums {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+    margin-top: 20px;
+}
+
+/* Boutons de filtrage */
+.filter-zone {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filter-zone button {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.filter-zone button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.filter-zone button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .artist-card {
+        padding: 10px;
+    }
+
+    .artist-image {
+        max-width: 120px;
+        height: 120px;
+    }
+
+    .artist-info h4 {
+        font-size: 1rem;
+    }
+
+    .artist-info .artist-genres {
+        font-size: 0.8rem;
+    }
+}
+
+
 /*MEDIA QUERIES */
 @media screen and (min-width: 700px) {
 

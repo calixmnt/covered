@@ -67,6 +67,9 @@ export type SearchResponse = {
 
 //-----------------------------------------------------------------------------------------
 
+export type Filter = "all" | "albums" | "singles";
+
+
 export interface SpotifySearchResponse {
   albums?: {
     items: SpotifyAlbum[];

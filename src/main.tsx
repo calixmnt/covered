@@ -12,9 +12,11 @@ import {
 import RootLayout from "./layouts/RootLayout.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import CoverDetailsPage from "./pages/CoverDetailsPage.tsx";
-import { getRandomItemLoader } from "./utils/spotify.ts";
 import HaveFunPage from "./pages/HaveFunPage.tsx";
 import CoversPage from "./pages/CoversPage.tsx";
+import ArtistPage from "./pages/ArtistPage.tsx";
+import ArtistsPage from "./pages/ArtistsPage.tsx";
+import {getRandomItemLoader} from "./api/spotify.ts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,11 +26,14 @@ const router = createBrowserRouter(
       <Route
         path={"surprise-of-the-day"}
         element={<CoverDetailsPage />}
-        loader={getRandomItemLoader("track")}
+        loader={getRandomItemLoader}
       />
       <Route path={"covers"} element={<CoversPage />}>
-        <Route path={":coverId"} element={<CoverDetailsPage />} />
       </Route>
+        <Route path={"covers/:coverId"} element={<CoverDetailsPage />} />
+        <Route path={"artists"} element={<ArtistsPage />}>
+            <Route path={":artistId"} element={<ArtistPage />} />
+        </Route>
       <Route path={"*"} element={<ErrorPage />} />
     </Route>,
   ),

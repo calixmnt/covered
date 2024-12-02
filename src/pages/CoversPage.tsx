@@ -2,19 +2,20 @@ import SearchBar from "../components/SearchBar.tsx";
 import Cover from "../components/Cover.tsx";
 import { Outlet, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { SpotifySearchResponse } from "../interfaces";
+import {Filter, SpotifySearchResponse} from "../interfaces";
 import Loader from "../components/Loader.tsx";
 import { searchItem } from "../api/spotify.ts";
-
-type Filter = "all" | "albums" | "singles";
+import FilterZone from "../components/FilterZone.tsx";
+import {filterSpotifyItems} from "../utils";
 
 function CoversPage() {
-  const [activeFilter, setActiveFilter] = useState<Filter>("all");
-  const [items, setItems] = useState<SpotifySearchResponse | null>(null);
+  const [spotifyItems, setSpotifyItems] = useState<SpotifySearchResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
 
-  const filters = ["all", "albums", "singles"] as const;
+  const [activeFilter, setActiveFilter] = useState<Filter>("all");
+
+
   const searchTerm = searchParams.get("q") || "";
 
   const handleSearch = async (query: string) => {
@@ -23,50 +24,22 @@ function CoversPage() {
       const result = await searchItem(query);
       if (result) {
         console.log(result);
-        setItems(result);
+        setSpotifyItems(result);
       } else {
-        setItems(null);
+        setSpotifyItems(null);
       }
     } catch (error) {
       console.error("Error during the search :", error);
-      setItems(null);
+      setSpotifyItems(null);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleFilterChange = (filter: Filter) => {
-    setActiveFilter(filter);
-  };
-
-  const filteredItems = items?.albums?.items.filter((item) => {
-    // const firstArtistId = array[0]?.artists[0]?.id;
-
-    // if (!firstArtistId) return false;
-
-    if (activeFilter === "all") {
-      // return item.artists.some((artist) => artist.id === firstArtistId);
-      return true;
-    }
-
-    if (activeFilter === "albums") {
-      return (
-          // item.artists.some((artist) => artist.id === firstArtistId) &&
-          (item.album_type === "album" || (item.album_type === "single" && item.total_tracks > 1))
-      );
-    }
-
-    if (activeFilter === "singles") {
-      return (
-          // item.artists.some((artist) => artist.id === firstArtistId) &&
-          item.album_type === "single" &&
-          item.total_tracks === 1
-      );
-    }
-
-    return false;
-  });
-
+  const filteredSpotifyItems = filterSpotifyItems(
+      spotifyItems?.albums?.items || [],
+      activeFilter
+  );
 
   useEffect(() => {
     const fetchCovers = async () => {
@@ -75,9 +48,9 @@ function CoversPage() {
       try {
         const result = await searchItem(searchTerm);
         if (result) {
-          setItems(result);
+          setSpotifyItems(result);
         } else {
-          setItems(null);
+          setSpotifyItems(null);
         }
       } catch (error) {
         console.error("Error during loading of covers", error);
@@ -96,26 +69,18 @@ function CoversPage() {
         placeholder={"Have fun, search your cover"}
         onSearch={handleSearch}
       />
-      <section className={"container"}>
+      <section className='container'>
         <h3>Filters</h3>
-        {filters.map((filter: Filter) => (
-          <button
-            key={filter}
-            className={activeFilter === filter ? "active" : ""}
-            onClick={() => handleFilterChange(filter)}
-          >
-            {filter.charAt(0).toUpperCase() + filter.slice(1)}
-          </button>
-        ))}
+        <FilterZone activeFilter={activeFilter} onFilterChange={setActiveFilter} />
       </section>
       <section className="container-xl">
         {isLoading ? (
           <Loader />
-        ) : items?.albums && items?.albums.items && items?.albums?.total > 0 ? (
+        ) : filteredSpotifyItems && filteredSpotifyItems ? (
           <>
-            <b>{filteredItems.length} results</b>
+            <b>{filteredSpotifyItems.length} results</b>
             <div className="covers-grid">
-              {filteredItems.map((item) => (
+              {filteredSpotifyItems.map((item) => (
                 <Cover
                   key={item.id}
                   id={item.id}
