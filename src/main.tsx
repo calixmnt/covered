@@ -12,28 +12,24 @@ import {
 import RootLayout from "./layouts/RootLayout.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import CoverDetailsPage from "./pages/CoverDetailsPage.tsx";
-import HaveFunPage from "./pages/HaveFunPage.tsx";
+
+import './styles/improved.css';
+import { QueryProvider } from './providers/QueryProvider';
+import FavoritesPage from "./pages/FavoritesPage.tsx";
+import GalleryPage from "./pages/GalleryPage.tsx";
+import GiftPage from "./pages/GiftPage.tsx";
 import CoversPage from "./pages/CoversPage.tsx";
-import ArtistPage from "./pages/ArtistPage.tsx";
-import ArtistsPage from "./pages/ArtistsPage.tsx";
-import {getRandomItemLoader} from "./api/spotify.ts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
       <Route index element={<App />} />
-      <Route path={"have-fun"} element={<HaveFunPage />} />
-      <Route
-        path={"surprise-of-the-day"}
-        element={<CoverDetailsPage />}
-        loader={getRandomItemLoader}
-      />
-      <Route path={"covers"} element={<CoversPage />}>
-      </Route>
-        <Route path={"covers/:coverId"} element={<CoverDetailsPage />} />
-        <Route path={"artists"} element={<ArtistsPage />}>
-            <Route path={":artistId"} element={<ArtistPage />} />
-        </Route>
+      <Route path="favorites" element={<FavoritesPage />} />
+      <Route path="gallery" element={<GalleryPage />} />
+      <Route path={"covers"} element={<CoversPage />} />
+      <Route path={"covers/:coverId"} element={<CoverDetailsPage />} />
+
+      <Route path={"gift-of-the-day"} element={<GiftPage />} />
       <Route path={"*"} element={<ErrorPage />} />
     </Route>,
   ),
@@ -41,6 +37,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryProvider>
+      <RouterProvider router={router} />
+    </QueryProvider>
   </StrictMode>,
 );

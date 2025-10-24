@@ -1,15 +1,15 @@
-import SearchBar from "./components/SearchBar.tsx";
-import Hero from "./components/Hero.tsx";
+import { Hero } from "./components/Hero";
+import { SearchBar } from "./components/SearchBar";
 
 function App() {
-
     return (
         <>
             <Hero />
             <SearchBar
-                placeholder={"Search for your favorite cover here"}
+                placeholder="Search for your favorite album covers..."
                 isTopPosition={false}
                 redirectTo='/covers'
+                showSuggestions={true}
             />
         </>
     )

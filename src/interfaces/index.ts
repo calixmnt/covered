@@ -100,13 +100,24 @@ export interface SpotifyAlbum {
   album_type: SpotifyAlbumType;
   total_tracks: number;
   available_markets: string[];
-  href:string;
+  href: string;
   id: string;
   images: SpotifyImage[];
   name: string;
   release_date: string;
   release_date_precision: 'day' | 'month' | 'year';
   artists: SpotifyArtist[];
+  tracks?: {
+    items: SpotifyTrack[];
+    total: number;
+    limit: number;
+    offset: number;
+  };
+  external_urls?: {
+    spotify: string;
+  };
+  uri?: string;
+  type?: 'album';
 }
 
 export interface SpotifyTrack {
@@ -114,22 +125,33 @@ export interface SpotifyTrack {
   name: string;
   album: SpotifyAlbum;
   artists: SpotifyArtist[];
-  disc_number:number;
+  disc_number: number;
   duration_ms: number;
-  track_number:number;
-  uri:string;
-  type:'track';
-  href:string;
+  track_number: number;
+  uri: string;
+  type: 'track';
+  href: string;
+  explicit?: boolean;
+  external_urls?: {
+    spotify: string;
+  };
 }
 
 export interface SpotifyArtist {
-  href:string;
+  href: string;
   id: string;
   name: string;
   images?: SpotifyImage[];
   genres?: string[];
   type: 'artist';
-  uri:string;
+  uri: string;
+  external_urls?: {
+    spotify: string;
+  };
+  followers?: {
+    total: number;
+  };
+  popularity?: number;
 }
 
 export interface SpotifyImage {

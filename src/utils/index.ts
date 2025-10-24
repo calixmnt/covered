@@ -1,5 +1,4 @@
-import {SpotifyAlbum} from "../interfaces";
-import {Filter} from "../components/FilterZone.tsx";
+import {SpotifyAlbum, Filter} from "../interfaces";
 
 const alphabet: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 

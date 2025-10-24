@@ -1,3 +1,6 @@
+/* Import Gallery Styles */
+@import './gallery.css';
+
 /* RESET */
 *,
 *::before,
