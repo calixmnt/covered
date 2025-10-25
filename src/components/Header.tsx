@@ -66,6 +66,11 @@ export function Header() {
         setIsMenuOpen(false);
     };
 
+    // Count covers in gallery (albums and tracks with images)
+    const galleryCount = favoriteItems.filter(item => 
+        (item.type === 'album' || item.type === 'track') && item.image
+    ).length;
+
     const navigationItems = [
         { 
             to: '/', 
@@ -89,7 +94,8 @@ export function Header() {
             to: '/gallery', 
             label: 'Gallery', 
             icon: <FaImages />,
-            description: 'Your cover collection'
+            description: 'Your cover collection',
+            badge: galleryCount > 0 ? galleryCount : undefined
         }
     ];
 
@@ -124,11 +130,11 @@ export function Header() {
                                         <span className="header-improved__nav-label">
                                             {item.label}
                                         </span>
-                                        {/* {item.badge && (
+                                        {item.badge && (
                                             <span className="header-improved__nav-badge">
                                                 {item.badge}
                                             </span>
-                                        )} */}
+                                        )}
                                     </NavLink>
                                 </li>
                             ))}
@@ -242,11 +248,11 @@ export function Header() {
                                                 {item.description}
                                             </span>
                                         </div>
-                                        {/* {item.badge && (
+                                        {item.badge && (
                                             <span className="header-improved__mobile-nav-badge">
                                                 {item.badge}
                                             </span>
-                                        )} */}
+                                        )}
                                     </NavLink>
                                 </li>
                             ))}

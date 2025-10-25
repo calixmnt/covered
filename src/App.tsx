@@ -1,5 +1,6 @@
 import { Hero } from "./components/Hero";
 import { SearchBar } from "./components/SearchBar";
+// import { GalleryPromo } from "./components/GalleryPromo";
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
                 redirectTo='/covers'
                 showSuggestions={true}
             />
+            {/* <GalleryPromo /> */}
         </>
     )
 }

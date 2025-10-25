@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaHeart, FaDownload, FaUpload, FaTrash } from 'react-icons/fa';
+import { FaHeart, FaDownload, FaUpload, FaTrash, FaImages, FaArrowRight } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import { useFavorites } from '../hooks/useFavorites';
 import { useShare } from '../hooks/useShare';
 import { CoverImproved } from '../components/CoverImproved';
@@ -82,6 +83,11 @@ export default function FavoritesPage() {
         albumType: item.type as 'album' | 'single' | 'compilation'
     }));
 
+    // Count covers in gallery (albums and tracks with images)
+    const galleryCount = favoriteItems.filter(item => 
+        (item.type === 'album' || item.type === 'track') && item.image
+    ).length;
+
     if (favoriteItems.length === 0) {
         return (
             <div className="favorites-page">
@@ -135,6 +141,24 @@ export default function FavoritesPage() {
                         error={new Error(importError)} 
                         onRetry={() => setImportError(null)}
                     />
+                )}
+
+                {galleryCount > 0 && (
+                    <div className="favorites-gallery-cta">
+                        <div className="favorites-gallery-cta__content">
+                            <div className="favorites-gallery-cta__icon">
+                                <FaImages />
+                            </div>
+                            <div className="favorites-gallery-cta__text">
+                                <h3>View in Immersive Gallery</h3>
+                                <p>Experience your {galleryCount} cover{galleryCount > 1 ? 's' : ''} in full-screen mode</p>
+                            </div>
+                            <Link to="/gallery" className="favorites-gallery-cta__btn">
+                                Open Gallery
+                                <FaArrowRight />
+                            </Link>
+                        </div>
+                    </div>
                 )}
 
                 <div className="favorites-controls">

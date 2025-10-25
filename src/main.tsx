@@ -14,6 +14,7 @@ import ErrorPage from "./pages/ErrorPage.tsx";
 import CoverDetailsPage from "./pages/CoverDetailsPage.tsx";
 
 import './styles/improved.css';
+import './styles/gallery-promo.css';
 import { QueryProvider } from './providers/QueryProvider';
 import FavoritesPage from "./pages/FavoritesPage.tsx";
 import GalleryPage from "./pages/GalleryPage.tsx";
