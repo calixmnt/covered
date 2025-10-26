@@ -15,9 +15,11 @@ import CoverDetailsPage from "./pages/CoverDetailsPage.tsx";
 
 import './styles/improved.css';
 import './styles/gallery-promo.css';
+import './styles/logo.css';
+import './styles/searchbar-themes.css';
 import { QueryProvider } from './providers/QueryProvider';
+import { LanguageProvider } from './contexts/LanguageContext';
 import FavoritesPage from "./pages/FavoritesPage.tsx";
-import GalleryPage from "./pages/GalleryPage.tsx";
 import GiftPage from "./pages/GiftPage.tsx";
 import CoversPage from "./pages/CoversPage.tsx";
 
@@ -26,7 +28,6 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootLayout />}>
       <Route index element={<App />} />
       <Route path="favorites" element={<FavoritesPage />} />
-      <Route path="gallery" element={<GalleryPage />} />
       <Route path={"covers"} element={<CoversPage />} />
       <Route path={"covers/:coverId"} element={<CoverDetailsPage />} />
 
@@ -38,8 +39,10 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <QueryProvider>
-      <RouterProvider router={router} />
-    </QueryProvider>
+    <LanguageProvider>
+      <QueryProvider>
+        <RouterProvider router={router} />
+      </QueryProvider>
+    </LanguageProvider>
   </StrictMode>,
 );

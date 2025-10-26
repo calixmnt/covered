@@ -7,38 +7,42 @@ import {
     FaClock,
     FaTimes
 } from 'react-icons/fa';
+import { useTheme } from '../hooks/useTheme';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface SearchBarProps {
     placeholder?: string;
     isTopPosition?: boolean;
+    isBottomFixed?: boolean;
     onSearch?: (query: string) => void;
     redirectTo?: string;
     showSuggestions?: boolean;
 }
 
 const POPULAR_SEARCHES = [
-    'Pink Floyd - Dark Side of the Moon',
-    'The Beatles - Abbey Road',
-    'Nirvana - Nevermind',
-    'Michael Jackson - Thriller',
-    'Led Zeppelin - IV',
-    'Queen - A Night at the Opera',
-    'David Bowie - The Rise and Fall of Ziggy Stardust',
-    'Radiohead - OK Computer'
+    'Alpha Blondy - Jérusalem',
+    'Magic System - Premier Gaou',
+    'Fela Kuti - Zombie',
+    'Youssou N\'Dour - 7 Seconds',
+    'Salif Keita - Soro',
+    'Angelique Kidjo - Logozo',
+    'DJ Arafat - Yorobo',
+    'Tiken Jah Fakoly - Françafrique'
 ];
 
 const SEARCH_SUGGESTIONS = [
-    'jazz classics',
-    'rock anthems',
-    'electronic beats',
-    'indie discoveries',
-    'hip hop legends',
-    'classical masterpieces'
+    'coupé-décalé',
+    'afrobeat',
+    'reggae africain',
+    'zouglou',
+    'makossa',
+    'ndombolo'
 ];
 
 export function SearchBar({
-    placeholder = "Search for your favorite album covers...",
+    placeholder,
     isTopPosition = false,
+    isBottomFixed = false,
     onSearch,
     redirectTo = '/covers',
     showSuggestions = true
@@ -52,6 +56,8 @@ export function SearchBar({
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const { theme } = useTheme();
+    const { t } = useLanguage();
 
     // Load recent searches from localStorage
     useEffect(() => {
@@ -171,7 +177,7 @@ export function SearchBar({
     };
 
     return (
-        <div className={`search-bar-improved ${isTopPosition ? 'top-position' : ''}`}>
+        <div className={`search-bar-improved ${isTopPosition ? 'top-position' : ''} ${isBottomFixed ? 'bottom-fixed' : ''} theme-${theme}`}>
             <div className="container">
                 <form onSubmit={handleSubmit} className="search-bar-improved__form">
                     <div className="search-bar-improved__container" ref={dropdownRef}>
@@ -185,7 +191,7 @@ export function SearchBar({
                                 onChange={(e) => setQuery(e.target.value)}
                                 onFocus={handleFocus}
                                 onBlur={handleBlur}
-                                placeholder={placeholder}
+                                placeholder={placeholder || t.search.placeholder}
                                 className="search-bar-improved__input"
                             />
                             
@@ -195,7 +201,7 @@ export function SearchBar({
                                         type="button"
                                         onClick={() => setQuery('')}
                                         className="search-bar-improved__clear-btn"
-                                        title="Clear search"
+                                        title={t.search.clearSearch}
                                     >
                                         <FaTimes />
                                     </button>
@@ -205,7 +211,7 @@ export function SearchBar({
                                     type="button"
                                     onClick={handleVoiceSearch}
                                     className={`search-bar-improved__voice-btn ${isListening ? 'listening' : ''}`}
-                                    title="Voice search"
+                                    title={t.search.voiceSearch}
                                 >
                                     <FaMicrophone />
                                 </button>
@@ -214,7 +220,7 @@ export function SearchBar({
                                     type="button"
                                     onClick={handleRandomSearch}
                                     className="search-bar-improved__random-btn"
-                                    title="Random search"
+                                    title={t.search.randomSearch}
                                 >
                                     <FaRandom />
                                 </button>
@@ -229,13 +235,13 @@ export function SearchBar({
                                     <div className="search-bar-improved__section">
                                         <div className="search-bar-improved__section-header">
                                             <h4>
-                                                <FaClock /> Recent Searches
+                                                <FaClock /> {t.search.recentSearches}
                                             </h4>
                                             <button 
                                                 onClick={clearRecentSearches}
                                                 className="search-bar-improved__clear-all"
                                             >
-                                                Clear
+                                                {t.search.clearAll}
                                             </button>
                                         </div>
                                         <div className="search-bar-improved__suggestions">
@@ -256,7 +262,7 @@ export function SearchBar({
                                 {/* Popular searches */}
                                 <div className="search-bar-improved__section">
                                     <h4 className="search-bar-improved__section-header">
-                                        Popular Searches
+                                        {t.search.popularSearches}
                                     </h4>
                                     <div className="search-bar-improved__suggestions">
                                         {POPULAR_SEARCHES.slice(0, 4).map((search, index) => (
@@ -275,7 +281,7 @@ export function SearchBar({
                                 {/* Quick suggestions */}
                                 <div className="search-bar-improved__section">
                                     <h4 className="search-bar-improved__section-header">
-                                        Quick Discoveries
+                                        {t.search.quickDiscoveries}
                                     </h4>
                                     <div className="search-bar-improved__quick-suggestions">
                                         {SEARCH_SUGGESTIONS.map((suggestion, index) => (

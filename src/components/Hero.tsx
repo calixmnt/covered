@@ -8,12 +8,14 @@ import {
 } from 'react-icons/fa';
 import { useFavorites } from '../hooks/useFavorites';
 import { searchItem } from '../api/spotify';
+import { useLanguage } from '../contexts/LanguageContext.tsx';
 
 export function Hero() {
     const [showScrollHint, setShowScrollHint] = useState(true);
     const [isSearchingRandom, setIsSearchingRandom] = useState(false);
     const { favoriteItems } = useFavorites();
     const navigate = useNavigate();
+    const { t } = useLanguage();
 
     // Hide scroll hint after scroll
     useEffect(() => {
@@ -76,21 +78,20 @@ export function Hero() {
                 <div className="hero-simple__content">
                     <div className="hero-simple__text">
                         <h1 className="hero-simple__title">
-                            Explore Your Favorite
+                            {t.hero.title}
                             <span className="hero-simple__title-accent">
-                                Album Covers
+                                {t.hero.titleAccent}
                             </span>
                         </h1>
                         
                         <p className="hero-simple__description">
-                            Discover, zoom, and explore album artwork like never before. 
-                            Your personal gallery of music art awaits.
+                            {t.hero.description}
                         </p>
 
                         <div className="hero-simple__actions">
                             <Link to="/covers" className="hero-simple__btn primary">
                                 <FaPlay />
-                                Start Exploring
+                                {t.hero.btnStartExploring}
                             </Link>
                             
                             <button 
@@ -99,13 +100,13 @@ export function Hero() {
                                 disabled={isSearchingRandom}
                             >
                                 <FaRandom />
-                                {isSearchingRandom ? 'Finding...' : 'Surprise Me'}
+                                {isSearchingRandom ? t.common.loading : t.hero.btnSurpriseMe}
                             </button>
                             
                             {favoriteItems.length > 0 && (
                                 <Link to="/favorites" className="hero-simple__btn tertiary">
                                     <FaHeart />
-                                    My Collection ({favoriteItems.length})
+                                    {t.hero.btnMyCollection} ({favoriteItems.length})
                                 </Link>
                             )}
                         </div>
@@ -144,15 +145,15 @@ export function Hero() {
                     <div className="hero-simple__stats">
                         <div className="hero-simple__stat">
                             <span className="hero-simple__stat-number">{favoriteItems.length}</span>
-                            <span className="hero-simple__stat-label">In Your Collection</span>
+                            <span className="hero-simple__stat-label">{t.hero.urCollection}</span>
                         </div>
                         <div className="hero-simple__stat">
                             <span className="hero-simple__stat-number">HD</span>
-                            <span className="hero-simple__stat-label">High Quality</span>
+                            <span className="hero-simple__stat-label">{t.hero.highQuality}</span>
                         </div>
                         <div className="hero-simple__stat">
                             <span className="hero-simple__stat-number">∞</span>
-                            <span className="hero-simple__stat-label">To Discover</span>
+                            <span className="hero-simple__stat-label">{t.hero.toDiscover}</span>
                         </div>
                     </div>
                 )}

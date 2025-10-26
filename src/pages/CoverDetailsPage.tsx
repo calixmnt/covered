@@ -15,6 +15,7 @@ import {
 import { useAlbum, useArtistTopTracks } from '../hooks/useSpotifyData';
 import { useFavorites } from '../hooks/useFavorites';
 import { useShare } from '../hooks/useShare';
+import { useLanguage } from '../contexts/LanguageContext';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorBoundary';
 import { CoverImproved } from '../components/CoverImproved';
@@ -34,6 +35,7 @@ function CoverDetailsPage() {
     const { data: artistTopTracks } = useArtistTopTracks(album?.artists[0]?.id);
     const { favorites, toggleFavorite } = useFavorites();
     const { shareItem } = useShare();
+    const { t, language } = useLanguage();
     
     // State for cover zoom modal
     const [isZoomOpen, setIsZoomOpen] = useState(false);
@@ -47,7 +49,7 @@ function CoverDetailsPage() {
             toggleFavorite({
                 id: album.id,
                 title: album.name,
-                artist: album.artists[0]?.name || 'Unknown Artist',
+                artist: album.artists[0]?.name || t.coverDetails.unknownArtist,
                 image: album.images[0]?.url || '',
                 type: 'album'
             });
@@ -59,7 +61,7 @@ function CoverDetailsPage() {
             await shareItem({
                 id: album.id,
                 title: album.name,
-                artist: album.artists[0]?.name || 'Unknown Artist',
+                artist: album.artists[0]?.name || t.coverDetails.unknownArtist,
                 type: 'album'
             });
         }
@@ -73,7 +75,8 @@ function CoverDetailsPage() {
 
     const formatReleaseDate = (dateString: string) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('fr-FR', {
+        const locale = language === 'fr' ? 'fr-FR' : 'en-US';
+        return date.toLocaleDateString(locale, {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -88,7 +91,7 @@ function CoverDetailsPage() {
     if (isLoading) {
         return (
             <div className="cover-details-loading">
-                <LoadingSpinner size="large" message="Loading album details..." />
+                <LoadingSpinner size="large" message={t.coverDetails.loadingMessage} />
             </div>
         );
     }
@@ -109,14 +112,14 @@ function CoverDetailsPage() {
         return (
             <div className="container">
                 <div className="cover-details-not-found">
-                    <h2>No Surprise Available</h2>
-                    <p>We couldn't find a random album for today's surprise. Please try again later.</p>
+                    <h2>{t.coverDetails.noSurpriseTitle}</h2>
+                    <p>{t.coverDetails.noSurpriseDesc}</p>
                     <div className="cover-details-not-found-actions">
                         <button onClick={() => window.location.reload()} className="btn-secondary">
-                            Try Again
+                            {t.coverDetails.tryAgain}
                         </button>
                         <button onClick={() => navigate('/')} className="btn-primary">
-                            <FaArrowLeft /> Go Home
+                            <FaArrowLeft /> {t.coverDetails.goHome}
                         </button>
                     </div>
                 </div>
@@ -129,24 +132,24 @@ function CoverDetailsPage() {
         return (
             <div className="container">
                 <div className="cover-details-not-found">
-                    <h2>Album Not Found</h2>
+                    <h2>{t.coverDetails.albumNotFoundTitle}</h2>
                     <p>
                         {isFromSurprise 
-                            ? "The random album we found is not available in your region or has been removed."
-                            : "The requested album could not be found."
+                            ? t.coverDetails.albumNotFoundDescRandom
+                            : t.coverDetails.albumNotFoundDesc
                         }
                     </p>
                     <div className="cover-details-not-found-actions">
                         {isFromSurprise && (
                             <button onClick={() => window.location.reload()} className="btn-secondary">
-                                Try Another Random Album
+                                {t.coverDetails.tryAnotherRandom}
                             </button>
                         )}
                         <Link to="/covers" className="btn-secondary">
-                            Browse Albums
+                            {t.coverDetails.browseAlbums}
                         </Link>
                         <button onClick={handleBack} className="btn-primary">
-                            <FaArrowLeft /> Go Back
+                            <FaArrowLeft /> {t.coverDetails.goBack}
                         </button>
                     </div>
                 </div>
@@ -167,7 +170,7 @@ function CoverDetailsPage() {
             <div className="cover-details-header">
                 <div className="container">
                     <button onClick={handleBack} className="cover-details-back-btn">
-                        <FaArrowLeft /> Back
+                        <FaArrowLeft /> {t.coverDetails.back}
                     </button>
                 </div>
             </div>
@@ -180,7 +183,7 @@ function CoverDetailsPage() {
                         <div 
                             className="cover-details-image-container clickable"
                             onClick={() => setIsZoomOpen(true)}
-                            title="Click to zoom and explore the cover"
+                            title={t.coverDetails.clickToExplore}
                         >
                             <LazyLoadImage
                                 src={album.images[0]?.url}
@@ -196,7 +199,7 @@ function CoverDetailsPage() {
                                     <FaPlay />
                                 </button>
                                 <div className="cover-details-zoom-hint">
-                                    <span>Click to explore</span>
+                                    <span>{t.coverDetails.clickToExplore}</span>
                                 </div>
                             </div>
                         </div>
@@ -206,19 +209,19 @@ function CoverDetailsPage() {
                             <button 
                                 onClick={handleFavorite}
                                 className={`cover-details-action-btn ${isFavorite ? 'active' : ''}`}
-                                title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                                title={isFavorite ? t.coverDetails.removeFromFavorites : t.coverDetails.addToFavorites}
                             >
                                 <FaHeart />
-                                {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+                                {isFavorite ? t.coverDetails.removeFromFavorites : t.coverDetails.addToFavorites}
                             </button>
                             
                             <button 
                                 onClick={handleShare}
                                 className="cover-details-action-btn"
-                                title="Share this album"
+                                title={t.coverDetails.shareTitle}
                             >
                                 <FaShare />
-                                Share
+                                {t.coverDetails.share}
                             </button>
                             
                             {album.external_urls?.spotify && (
@@ -229,7 +232,7 @@ function CoverDetailsPage() {
                                     className="cover-details-action-btn spotify-btn"
                                 >
                                     <FaExternalLinkAlt />
-                                    Open in Spotify
+                                    {t.coverDetails.openInSpotify}
                                 </a>
                             )}
                         </div>
@@ -260,18 +263,18 @@ function CoverDetailsPage() {
                         <div className="cover-details-metadata">
                             <div className="cover-details-meta-item">
                                 <FaCalendarAlt />
-                                <span>Released: {formatReleaseDate(album.release_date)}</span>
+                                <span>{t.coverDetails.released}: {formatReleaseDate(album.release_date)}</span>
                             </div>
                             
                             <div className="cover-details-meta-item">
                                 <FaMusic />
-                                <span>{album.total_tracks} tracks</span>
+                                <span>{album.total_tracks} {t.coverDetails.tracks}</span>
                             </div>
                             
                             {totalDuration > 0 && (
                                 <div className="cover-details-meta-item">
                                     <FaClock />
-                                    <span>Duration: {formatDuration(totalDuration)}</span>
+                                    <span>{t.coverDetails.duration}: {formatDuration(totalDuration)}</span>
                                 </div>
                             )}
                         </div>
@@ -311,7 +314,7 @@ function CoverDetailsPage() {
                         {/* Related albums */}
                         {relatedAlbums.length > 0 && (
                             <div className="cover-details-related">
-                                <h3>More from {album.artists[0]?.name}</h3>
+                                <h3>{t.coverDetails.moreFrom} {album.artists[0]?.name}</h3>
                                 <div className="cover-details-related-grid">
                                     {relatedAlbums.map((relatedAlbum) => (
                                         <CoverImproved
@@ -339,7 +342,7 @@ function CoverDetailsPage() {
                 onClose={() => setIsZoomOpen(false)}
                 imageUrl={album.images[0]?.url || ''}
                 title={album.name}
-                artist={album.artists[0]?.name || 'Unknown Artist'}
+                artist={album.artists[0]?.name || t.coverDetails.unknownArtist}
                 albumType={album.album_type}
                 releaseDate={album.release_date}
                 onFavorite={handleFavorite}

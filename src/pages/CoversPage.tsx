@@ -3,6 +3,7 @@ import { Outlet, useSearchParams } from 'react-router-dom';
 import { useSpotifySearch } from '../hooks/useSpotifySearch.ts';
 import { useFavorites } from '../hooks/useFavorites.ts';
 import { useShare } from '../hooks/useShare.ts';
+import { useLanguage } from '../contexts/LanguageContext';
 import { AdvancedSearch } from '../components/AdvancedSearch.tsx';
 import { CoverGrid } from '../components/CoverImproved.tsx';
 import { LoadingSpinner, SkeletonGrid } from '../components/LoadingSpinner.tsx';
@@ -19,6 +20,7 @@ export default function CoversPage() {
     const { favorites, toggleFavorite } = useFavorites();
     const { shareItem } = useShare();
     const { data, isLoading, isError, error, search, hasSearched } = useSpotifySearch();
+    const { t } = useLanguage();
 
     const searchTerm = searchParams.get('q') || '';
 
@@ -59,13 +61,13 @@ export default function CoversPage() {
                 itemType = 'album';
                 itemImage = item.images?.[0]?.url || '';
                 itemTitle = item.name;
-                itemArtist = item.artists?.[0]?.name || '';
+                itemArtist = item.artists?.[0]?.name || t.covers.unknownArtist;
             } else if ('album' in item) {
                 // It's a track
                 itemType = 'track';
                 itemImage = item.album?.images?.[0]?.url || '';
                 itemTitle = item.name;
-                itemArtist = item.artists?.[0]?.name || '';
+                itemArtist = item.artists?.[0]?.name || t.covers.unknownArtist;
             } else {
                 // It's an artist
                 itemType = 'artist';
@@ -103,7 +105,7 @@ export default function CoversPage() {
         id: album.id,
         image: album.images?.[0]?.url || '',
         title: album.name,
-        artist: album.artists?.[0]?.name || 'Unknown Artist',
+        artist: album.artists?.[0]?.name || t.covers.unknownArtist,
         releaseDate: album.release_date,
         albumType: album.album_type as 'album' | 'single' | 'compilation'
     }));
@@ -118,12 +120,12 @@ export default function CoversPage() {
                     <AdvancedSearch
                         onSearch={handleAdvancedSearch}
                         isLoading={isLoading}
-                        placeholder="Search for albums, tracks, or artists..."
+                        placeholder={t.covers.searchPlaceholder}
                     />
 
                     {hasSearched && (
                         <section className="covers-filters">
-                            <h3>Filters</h3>
+                            <h3>{t.covers.filtersTitle}</h3>
                             <FilterZone
                                 activeFilter={activeFilter} 
                                 onFilterChange={setActiveFilter} 
@@ -137,7 +139,7 @@ export default function CoversPage() {
                         <div className="covers-loading">
                             <LoadingSpinner 
                                 size="large" 
-                                message="Searching for music..." 
+                                message={t.covers.searchingMessage} 
                             />
                             <SkeletonGrid count={12} />
                         </div>
@@ -153,9 +155,9 @@ export default function CoversPage() {
                     {showResults && hasResults && (
                         <div className="covers-results">
                             <div className="covers-results-header">
-                                <h2>Search Results</h2>
+                                <h2>{t.covers.searchResults}</h2>
                                 <p className="covers-count">
-                                    <strong>{coversData.length}</strong> {coversData.length === 1 ? 'result' : 'results'} found
+                                    <strong>{coversData.length}</strong> {coversData.length === 1 ? t.covers.resultCount : t.covers.resultCountPlural}
                                 </p>
                             </div>
                             
@@ -171,15 +173,15 @@ export default function CoversPage() {
 
                     {showResults && !hasResults && !isError && (
                         <div className="covers-no-results">
-                            <h3>No Results Found</h3>
-                            <p>Try adjusting your search terms or filters.</p>
+                            <h3>{t.covers.noResultsTitle}</h3>
+                            <p>{t.covers.noResultsDesc}</p>
                         </div>
                     )}
 
                     {!hasSearched && (
                         <div className="covers-welcome">
-                            <h2>Discover Amazing Music</h2>
-                            <p>Use the search above to find your favorite albums, tracks, and artists.</p>
+                            <h2>{t.covers.welcomeTitle}</h2>
+                            <p>{t.covers.welcomeDesc}</p>
                         </div>
                     )}
                 </section>

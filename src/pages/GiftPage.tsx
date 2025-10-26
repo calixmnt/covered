@@ -16,6 +16,7 @@ import {
 import { searchItem } from '../api/spotify';
 import { useFavorites } from '../hooks/useFavorites';
 import { useShare } from '../hooks/useShare';
+import { useLanguage } from '../contexts/LanguageContext';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { SpotifyAlbum } from '../interfaces';
 
@@ -56,6 +57,7 @@ export default function GiftPage() {
     const navigate = useNavigate();
     const { favorites, toggleFavorite } = useFavorites();
     const { shareItem } = useShare();
+    const { t, language } = useLanguage();
 
     // Load preferences and history from localStorage
     useEffect(() => {
@@ -244,7 +246,8 @@ export default function GiftPage() {
 
     const loadHistoryItem = (historyItem: GiftHistory) => {
         setGiftAlbum(historyItem.album);
-        setGiftDate(new Date(historyItem.date).toLocaleDateString('fr-FR', {
+        const locale = language === 'fr' ? 'fr-FR' : 'en-US';
+        setGiftDate(new Date(historyItem.date).toLocaleDateString(locale, {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
@@ -274,7 +277,7 @@ export default function GiftPage() {
         return (
             <div className="gift-immersive">
                 <div className="gift-loading">
-                    <LoadingSpinner size="large" message="Unwrapping your musical gift..." />
+                    <LoadingSpinner size="large" message={t.gift.loading} />
                 </div>
             </div>
         );
@@ -286,20 +289,20 @@ export default function GiftPage() {
                 <div className="gift-minimal-header">
                     <button onClick={handleExitGift} className="gift-exit-btn">
                         <FaArrowLeft />
-                        <span>Exit Gift</span>
+                        <span>{t.common.back}</span>
                     </button>
                 </div>
                 
                 <div className="gift-error-state">
                     <div className="gift-error-content">
                         <FaGift className="gift-error-icon" />
-                        <h2>Gift Unavailable</h2>
-                        <p>We couldn't unwrap your musical gift right now</p>
+                        <h2>{t.gift.error}</h2>
+                        <p>{t.gift.errorMessage}</p>
                         <button 
                             onClick={() => fetchGiftAlbum()}
                             className="gift-retry-btn"
                         >
-                            Try Again
+                            {t.common.retry}
                         </button>
                     </div>
                 </div>
@@ -313,20 +316,20 @@ export default function GiftPage() {
                 <div className="gift-minimal-header">
                     <button onClick={handleExitGift} className="gift-exit-btn">
                         <FaArrowLeft />
-                        <span>Exit Gift</span>
+                        <span>{t.common.back}</span>
                     </button>
                 </div>
                 
                 <div className="gift-error-state">
                     <div className="gift-error-content">
                         <FaGift className="gift-error-icon" />
-                        <h2>No Gift Found</h2>
-                        <p>Let's try to find you something special</p>
+                        <h2>{t.gift.noGiftTitle}</h2>
+                        <p>{t.gift.noGiftDesc}</p>
                         <button 
                             onClick={() => fetchGiftAlbum()}
                             className="gift-retry-btn"
                         >
-                            Unwrap Gift
+                            {t.gift.unwrapGift}
                         </button>
                     </div>
                 </div>
@@ -342,7 +345,7 @@ export default function GiftPage() {
             <div className={`gift-minimal-header ${showControls ? 'visible' : 'hidden'}`}>
                 <button onClick={handleExitGift} className="gift-exit-btn">
                     <FaArrowLeft />
-                    <span>Exit Gift</span>
+                    <span>{t.common.back}</span>
                 </button>
                 
                 <div className="gift-date-minimal">
@@ -353,7 +356,7 @@ export default function GiftPage() {
                     <button 
                         onClick={() => setShowHistory(true)}
                         className="gift-header-btn"
-                        title="Gift history"
+                        title={t.gift.history}
                     >
                         <FaHistory />
                     </button>
@@ -361,7 +364,7 @@ export default function GiftPage() {
                     <button 
                         onClick={() => setShowPreferences(true)}
                         className="gift-header-btn"
-                        title="Preferences"
+                        title={t.gift.preferences}
                     >
                         <FaCog />
                     </button>
@@ -370,7 +373,7 @@ export default function GiftPage() {
                         onClick={() => fetchGiftAlbum(true)}
                         className="gift-refresh-btn"
                         disabled={isRefreshing}
-                        title="Get new gift"
+                        title={t.gift.refresh}
                     >
                         <FaDiceSix className={isRefreshing ? 'spinning' : ''} />
                     </button>
@@ -402,19 +405,19 @@ export default function GiftPage() {
                             <button 
                                 onClick={handleFavorite}
                                 className={`gift-action-btn ${isFavorite ? 'active' : ''}`}
-                                title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                                title={isFavorite ? t.coverDetails.removeFromFavorites : t.coverDetails.addToFavorites}
                             >
                                 <FaHeart />
-                                <span>{isFavorite ? 'Liked' : 'Like'}</span>
+                                <span>{isFavorite ? t.gift.liked : t.gift.like}</span>
                             </button>
                             
                             <button 
                                 onClick={handleShare} 
                                 className="gift-action-btn"
-                                title="Share this gift"
+                                title={t.gift.shareTitle}
                             >
                                 <FaShare />
-                                <span>Share</span>
+                                <span>{t.coverDetails.share}</span>
                             </button>
                             
                             {giftAlbum.external_urls?.spotify && (
@@ -423,7 +426,7 @@ export default function GiftPage() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="gift-action-btn"
-                                    title="Open in Spotify"
+                                    title={t.coverDetails.openInSpotify}
                                 >
                                     <FaExternalLinkAlt />
                                     <span>Spotify</span>
@@ -436,7 +439,7 @@ export default function GiftPage() {
                 {/* Gift Message */}
                 <div className="gift-message">
                     <FaGift className="gift-message-icon" />
-                    <p>Votre découverte musicale du jour</p>
+                    <p>{t.gift.dailyDiscovery}</p>
                 </div>
             </div>
 
@@ -462,9 +465,9 @@ export default function GiftPage() {
                                 <h2>{giftAlbum.name}</h2>
                                 <p>{giftAlbum.artists[0]?.name}</p>
                                 <div className="gift-details-meta">
-                                    <span>Released: {formatReleaseDate(giftAlbum.release_date)}</span>
-                                    <span>Tracks: {giftAlbum.total_tracks}</span>
-                                    <span>Type: {giftAlbum.album_type}</span>
+                                    <span>{t.coverDetails.released}: {formatReleaseDate(giftAlbum.release_date)}</span>
+                                    <span>{t.coverDetails.tracks}: {giftAlbum.total_tracks}</span>
+                                    <span>{t.gift.type}: {giftAlbum.album_type}</span>
                                 </div>
                             </div>
                         </div>
@@ -479,7 +482,7 @@ export default function GiftPage() {
                     
                     <div className="gift-modal-content">
                         <div className="gift-modal-header">
-                            <h2><FaHistory /> Gift History</h2>
+                            <h2><FaHistory /> {t.gift.historyTitle}</h2>
                             <button 
                                 className="gift-modal-close"
                                 onClick={() => setShowHistory(false)}
@@ -492,8 +495,8 @@ export default function GiftPage() {
                             {giftHistory.length === 0 ? (
                                 <div className="gift-empty-state">
                                     <FaGift className="gift-empty-icon" />
-                                    <p>No gift history yet</p>
-                                    <small>Your discovered albums will appear here</small>
+                                    <p>{t.gift.historyEmpty}</p>
+                                    <small>{t.gift.historyEmptyDesc}</small>
                                 </div>
                             ) : (
                                 <>
@@ -502,7 +505,7 @@ export default function GiftPage() {
                                             onClick={clearHistory}
                                             className="gift-clear-btn"
                                         >
-                                            Clear History
+                                            {t.gift.clearHistory}
                                         </button>
                                     </div>
                                     
@@ -521,7 +524,7 @@ export default function GiftPage() {
                                                     <h4>{item.album.name}</h4>
                                                     <p>{item.album.artists[0]?.name}</p>
                                                     <small>
-                                                        <FaCalendarAlt /> {new Date(item.date).toLocaleDateString('fr-FR')}
+                                                        <FaCalendarAlt /> {new Date(item.date).toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US')}
                                                     </small>
                                                 </div>
                                                 {item.liked && (
@@ -544,7 +547,7 @@ export default function GiftPage() {
                     
                     <div className="gift-modal-content gift-preferences-modal">
                         <div className="gift-modal-header">
-                            <h2><FaCog /> Gift Preferences</h2>
+                            <h2><FaCog /> {t.gift.preferencesTitle}</h2>
                             <button 
                                 className="gift-modal-close"
                                 onClick={() => setShowPreferences(false)}
@@ -555,8 +558,8 @@ export default function GiftPage() {
                         
                         <div className="gift-modal-body">
                             <div className="gift-preference-section">
-                                <h3><FaMusic /> Preferred Genres</h3>
-                                <p>Select genres you'd like to discover more often</p>
+                                <h3><FaMusic /> {t.gift.preferredGenres}</h3>
+                                <p>{t.gift.preferredGenresDesc}</p>
                                 <div className="gift-genre-grid">
                                     {['rock', 'pop', 'jazz', 'electronic', 'hip-hop', 'classical', 'blues', 'country', 'reggae', 'folk', 'indie', 'alternative'].map(genre => (
                                         <button
@@ -571,15 +574,15 @@ export default function GiftPage() {
                                                 updatePreferences({ ...preferences, preferredGenres: newPreferred });
                                             }}
                                         >
-                                            {genre}
+                                            {t.gift.genres[genre as keyof typeof t.gift.genres]}
                                         </button>
                                     ))}
                                 </div>
                             </div>
                             
                             <div className="gift-preference-section">
-                                <h3>Minimum Tracks</h3>
-                                <p>Albums should have at least this many tracks</p>
+                                <h3>{t.gift.minTracks}</h3>
+                                <p>{t.gift.minTracksDesc}</p>
                                 <div className="gift-range-input">
                                     <input
                                         type="range"
@@ -591,14 +594,14 @@ export default function GiftPage() {
                                             minTracks: parseInt(e.target.value) 
                                         })}
                                     />
-                                    <span>{preferences.minTracks} tracks</span>
+                                    <span>{preferences.minTracks} {t.coverDetails.tracks}</span>
                                 </div>
                             </div>
                             
                             <div className="gift-preference-section">
-                                <h3>Album Types</h3>
+                                <h3>{t.gift.albumTypes}</h3>
                                 <div className="gift-checkbox-group">
-                                    {[{ value: 'album', label: 'Full Albums' }, { value: 'single', label: 'Singles & EPs' }].map(type => (
+                                    {[{ value: 'album', label: t.gift.albumTypesAlbum }, { value: 'single', label: t.gift.albumTypesSingle }].map(type => (
                                         <label key={type.value} className="gift-checkbox-label">
                                             <input
                                                 type="checkbox"

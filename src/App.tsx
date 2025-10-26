@@ -8,7 +8,7 @@ function App() {
             <Hero />
             <SearchBar
                 placeholder="Search for your favorite album covers..."
-                isTopPosition={false}
+                isBottomFixed={true}
                 redirectTo='/covers'
                 showSuggestions={true}
             />

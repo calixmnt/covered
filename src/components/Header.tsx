@@ -3,16 +3,17 @@ import { NavLink, useLocation, Link } from 'react-router-dom';
 import { 
     FaHeart, 
     FaSearch, 
-    FaMusic,
     FaBars,
     FaTimes,
     FaSun,
     FaMoon,
     FaGift,
-    FaImages
 } from 'react-icons/fa';
 import { useFavorites } from '../hooks/useFavorites';
 import { useTheme } from '../hooks/useTheme';
+import { useLanguage } from '../contexts/LanguageContext';
+import { LanguageToggle } from './LanguageToggle';
+import { Logo } from './Logo';
 
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,6 +23,7 @@ export function Header() {
     const location = useLocation();
     const { favoriteItems } = useFavorites();
     const { theme, switchMode } = useTheme();
+    const { t } = useLanguage();
     
     const toggleTheme = () => {
         switchMode(theme === 'dark' ? 'light' : 'dark');
@@ -67,36 +69,36 @@ export function Header() {
     };
 
     // Count covers in gallery (albums and tracks with images)
-    const galleryCount = favoriteItems.filter(item => 
-        (item.type === 'album' || item.type === 'track') && item.image
-    ).length;
+    // const galleryCount = favoriteItems.filter(item => 
+    //     (item.type === 'album' || item.type === 'track') && item.image
+    // ).length;
 
     const navigationItems = [
-        { 
-            to: '/', 
-            label: 'Home', 
-            icon: <FaMusic />,
-            description: 'Discover music'
-        },
+        // { 
+        //     to: '/', 
+        //     label: t.header.home, 
+        //     icon: <FaMusic />,
+        //     description: t.header.homeDesc
+        // },
         { 
             to: '/covers', 
-            label: 'Explore', 
+            label: t.header.explore, 
             icon: <FaSearch />,
-            description: 'Search albums'
+            description: t.header.exploreDesc
         },
         { 
             to: '/gift-of-the-day', 
-            label: 'Your gift', 
+            label: t.header.yourGift, 
             icon: <FaGift />,
-            description: 'Daily discovery'
+            description: t.header.yourGiftDesc
         },
-        { 
-            to: '/gallery', 
-            label: 'Gallery', 
-            icon: <FaImages />,
-            description: 'Your cover collection',
-            badge: galleryCount > 0 ? galleryCount : undefined
-        }
+        // { 
+        //     to: '/favorites', 
+        //     label: t.header.gallery, 
+        //     icon: <FaImages />,
+        //     description: t.header.galleryDesc,
+        //     badge: galleryCount > 0 ? galleryCount : undefined
+        // }
     ];
 
     return (
@@ -106,11 +108,12 @@ export function Header() {
             <div className="container">
                 <div className="header-improved__content">
                     {/* Logo */}
-                    <Link to="/" className="header-improved__logo">
-                        <div className="header-improved__logo-text">
-                            <span className="header-improved__logo-name">Covered</span>
-                        </div>
-                    </Link>
+                    <Logo 
+                        size="medium" 
+                        variant={theme === 'dark' ? 'white' : 'black'} 
+                        crop="tight" 
+                        className="header-improved__logo" 
+                    />
 
                     {/* Desktop Navigation */}
                     <nav className="header-improved__nav desktop-nav">
@@ -130,11 +133,11 @@ export function Header() {
                                         <span className="header-improved__nav-label">
                                             {item.label}
                                         </span>
-                                        {item.badge && (
+                                        {/* {item.badge && (
                                             <span className="header-improved__nav-badge">
                                                 {item.badge}
                                             </span>
-                                        )}
+                                        )} */}
                                     </NavLink>
                                 </li>
                             ))}
@@ -147,16 +150,19 @@ export function Header() {
                         <button 
                             onClick={handleSearchToggle}
                             className={`header-improved__action-btn ${showSearchBar ? 'active' : ''}`}
-                            title="Toggle search"
+                            title={t.header.quickSearch}
                         >
                             <FaSearch />
                         </button>
+
+                        {/* Language Toggle */}
+                        <LanguageToggle />
 
                         {/* Theme Toggle */}
                         <button 
                             onClick={toggleTheme}
                             className="header-improved__action-btn theme-toggle"
-                            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                            title={`${t.header.switchTheme} ${theme === 'dark' ? t.header.lightMode.toLowerCase() : t.header.darkMode.toLowerCase()}`}
                         >
                             {theme === 'dark' ? <FaSun /> : <FaMoon />}
                         </button>
@@ -165,7 +171,7 @@ export function Header() {
                         <Link 
                             to="/favorites"
                             className="header-improved__action-btn favorites-btn"
-                            title={`${favoriteItems.length} favorites`}
+                            title={`${favoriteItems.length} ${t.header.favorites}`}
                         >
                             <FaHeart />
                             {favoriteItems.length > 0 && (
@@ -193,7 +199,7 @@ export function Header() {
                             <FaSearch className="header-improved__search-icon" />
                             <input 
                                 type="text"
-                                placeholder="Quick search for albums, artists..."
+                                placeholder={t.header.quickSearchPlaceholder}
                                 className="header-improved__search-input"
                                 autoFocus
                                 onKeyDown={(e) => {
@@ -217,7 +223,7 @@ export function Header() {
             <div className={`header-improved__mobile-menu ${isMenuOpen ? 'open' : ''}`}>
                 <div className="header-improved__mobile-menu-content">
                     <div className="header-improved__mobile-menu-header">
-                        <h3>Navigation</h3>
+                        <h3>{t.header.navigation}</h3>
                         <button 
                             onClick={() => setIsMenuOpen(false)}
                             className="header-improved__mobile-menu-close"
@@ -248,11 +254,11 @@ export function Header() {
                                                 {item.description}
                                             </span>
                                         </div>
-                                        {item.badge && (
+                                        {/* {item.badge && (
                                             <span className="header-improved__mobile-nav-badge">
                                                 {item.badge}
                                             </span>
-                                        )}
+                                        )} */}
                                     </NavLink>
                                 </li>
                             ))}
@@ -266,7 +272,7 @@ export function Header() {
                         >
                             {theme === 'dark' ? <FaSun /> : <FaMoon />}
                             <span>
-                                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                                {theme === 'dark' ? t.header.lightMode : t.header.darkMode}
                             </span>
                         </button>
                     </div>

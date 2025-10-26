@@ -9,6 +9,7 @@
     align-items: center;
     overflow: hidden;
     background: var(--color-background);
+    padding-bottom: 120px; /* Espace pour la SearchBar fixée en bas */
 }
 
 .hero-simple__background {

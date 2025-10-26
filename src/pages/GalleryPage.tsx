@@ -13,6 +13,7 @@ import {
 } from 'react-icons/fa';
 import { useFavorites } from '../hooks/useFavorites';
 import { useShare } from '../hooks/useShare';
+import { useLanguage } from '../contexts/LanguageContext';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 
 type SortMode = 'recent' | 'alphabetical' | 'artist' | 'random';
@@ -21,6 +22,7 @@ export default function GalleryPage() {
     const navigate = useNavigate();
     const { favoriteItems } = useFavorites();
     const { shareItem } = useShare();
+    const { t } = useLanguage();
     
     const [sortMode, setSortMode] = useState<SortMode>('recent');
     const [selectedCover, setSelectedCover] = useState<number | null>(null);
@@ -105,7 +107,7 @@ export default function GalleryPage() {
         return (
             <div className="gallery-immersive">
                 <div className="gallery-loading">
-                    <LoadingSpinner size="large" message="Opening your gallery..." />
+                    <LoadingSpinner size="large" message={t.gallery.loading} />
                 </div>
             </div>
         );
@@ -117,15 +119,15 @@ export default function GalleryPage() {
                 <div className="gallery-minimal-header">
                     <button onClick={handleExitGallery} className="gallery-exit-btn">
                         <FaArrowLeft />
-                        <span>Exit Gallery</span>
+                        <span>{t.gallery.exit}</span>
                     </button>
                 </div>
                 
                 <div className="gallery-empty-state">
                     <div className="gallery-empty-content">
                         <FaHeart className="gallery-empty-icon" />
-                        <h2>Your Gallery Awaits</h2>
-                        <p>Like albums and tracks to create your personal visual collection</p>
+                        <h2>{t.gallery.emptyTitle}</h2>
+                        <p>{t.gallery.emptyDesc}</p>
                     </div>
                 </div>
             </div>
@@ -138,14 +140,14 @@ export default function GalleryPage() {
             <div className={`gallery-minimal-header ${showControls ? 'visible' : 'hidden'}`}>
                 <button onClick={handleExitGallery} className="gallery-exit-btn">
                     <FaArrowLeft />
-                    <span>Exit Gallery</span>
+                    <span>{t.gallery.exit}</span>
                 </button>
                 
                 <div className="gallery-sort-minimal">
                     <button 
                         onClick={() => setSortMode(sortMode === 'recent' ? 'random' : 'recent')}
                         className="gallery-sort-toggle"
-                        title={`Switch to ${sortMode === 'recent' ? 'random' : 'recent'} order`}
+                        title={sortMode === 'recent' ? t.gallery.switchToRandom : t.gallery.switchToRecent}
                     >
                         {sortMode === 'recent' ? <FaRandom /> : <FaSortAmountDown />}
                     </button>
@@ -208,10 +210,10 @@ export default function GalleryPage() {
                                         onClick={() => handleShare(sortedCovers[selectedCover])}
                                         className="gallery-fullscreen-btn"
                                     >
-                                        <FaShare /> Share
+                                        <FaShare /> {t.coverDetails.share}
                                     </button>
                                     <button className="gallery-fullscreen-btn">
-                                        <FaPlay /> Play
+                                        <FaPlay /> {t.gallery.play}
                                     </button>
                                 </div>
                             </div>
