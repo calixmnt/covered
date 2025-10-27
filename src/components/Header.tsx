@@ -109,9 +109,9 @@ export function Header() {
                 <div className="header-improved__content">
                     {/* Logo */}
                     <Logo 
-                        size="medium" 
+                        size="small" 
                         variant={theme === 'dark' ? 'white' : 'black'} 
-                        crop="tight" 
+                        // crop="tight" 
                         className="header-improved__logo" 
                     />
 
