@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { trackEvent } from '../analytics';
 
 interface FavoriteItem {
     id: string;
@@ -63,6 +64,10 @@ export function useFavorites(): UseFavoritesReturn {
             }
             const updated = [newItem, ...prev];
             saveFavorites(updated);
+            
+            // Track favorite add with total count
+            trackEvent('favorite_add', { total: updated.length });
+            
             return updated;
         });
 

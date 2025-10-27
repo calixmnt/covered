@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link, useLoaderData } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { 
@@ -16,6 +16,7 @@ import { useAlbum, useArtistTopTracks } from '../hooks/useSpotifyData';
 import { useFavorites } from '../hooks/useFavorites';
 import { useShare } from '../hooks/useShare';
 import { useLanguage } from '../contexts/LanguageContext';
+import { trackEvent } from '../analytics';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorBoundary';
 import { CoverImproved } from '../components/CoverImproved';
@@ -39,6 +40,14 @@ function CoverDetailsPage() {
     
     // State for cover zoom modal
     const [isZoomOpen, setIsZoomOpen] = useState(false);
+
+    // Track result click when album loads
+    useEffect(() => {
+        if (album) {
+            // Determine source: Spotify API is our main source (CAA = Cover Album Art)
+            trackEvent('result_click', { source: 'CAA' });
+        }
+    }, [album]);
 
     const handleBack = () => {
         navigate(-1);

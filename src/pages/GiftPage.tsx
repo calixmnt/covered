@@ -17,6 +17,7 @@ import { searchItem } from '../api/spotify';
 import { useFavorites } from '../hooks/useFavorites';
 import { useShare } from '../hooks/useShare';
 import { useLanguage } from '../contexts/LanguageContext';
+import { trackEvent } from '../analytics';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { SpotifyAlbum } from '../interfaces';
 
@@ -140,6 +141,9 @@ export default function GiftPage() {
                     day: 'numeric'
                 }));
                 setIsLoading(false);
+                
+                // Track album of the day view (cached)
+                trackEvent('album_of_day_view');
                 return;
             }
 
@@ -183,6 +187,9 @@ export default function GiftPage() {
                 localStorage.setItem(todayKey, JSON.stringify(validAlbum));
                 
                 saveToHistory(validAlbum);
+                
+                // Track album of the day view
+                trackEvent('album_of_day_view');
             } else {
                 setError('Unable to find a gift album. Please try again.');
             }

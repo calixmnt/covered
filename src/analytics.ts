@@ -1,33 +1,29 @@
 // src/analytics.ts
-import Plausible from 'plausible-tracker';
+import { init, track } from '@plausible-analytics/tracker';
 
-const DOMAIN = 'covered.lavibeagency.com'; // <-- adapte
-
-// si tu veux un opt-out, on lit un flag localStorage
-// const isDisabled = () => localStorage.getItem('covered_analytics_optout') === '1';
-
-const plausible = Plausible({
-  domain: DOMAIN,
-  apiHost: 'https://plausible.io',   // ou ton instance self-hosted
-  trackLocalhost: false,
-  hashMode: false,
-  // on n'utilise pas auto pageviews dans une SPA : on déclenchera à chaque navigation
-//   enabled: !isDisabled(),
-});
-
-export function enableAnalytics(enable: boolean) {
-  if (enable) localStorage.removeItem('covered_analytics_optout');
-  else localStorage.setItem('covered_analytics_optout', '1');
-  window.location.reload();
+export function initAnalytics() {
+  init({
+    domain: 'covered.lavibeagency.com',   // adapte
+    // endpoint: 'https://plausible.io/api/event', // proxy plus tard si besoin
+    autoCapturePageviews: true,
+    hashBasedRouting: false,              // true si HashRouter
+    captureOnLocalhost: false,
+    bindToWindow: true,                   // utile pour le test d’installation
+    // customProperties: (eventName) => ({ app_ver: '1.0.0' }) // optionnel
+  });
 }
 
-export function trackPageview(url?: string, referrer?: string) {
-  plausible.trackPageview({ url, referrer });
-}
-
-export function track(
+// helper pour tes events
+export function trackEvent(
   name: 'search_performed' | 'result_click' | 'favorite_add' | 'album_of_day_view',
-  props?: Record<string, any>
+  props?: Record<string, string | number | boolean>
 ) {
-  plausible.trackEvent(name, { props });
+  // Convert all props to strings for Plausible
+  const stringProps = props 
+    ? Object.fromEntries(
+        Object.entries(props).map(([key, value]) => [key, String(value)])
+      )
+    : undefined;
+  
+  track(name, { props: stringProps });
 }

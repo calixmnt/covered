@@ -22,6 +22,13 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import FavoritesPage from "./pages/FavoritesPage.tsx";
 import GiftPage from "./pages/GiftPage.tsx";
 import CoversPage from "./pages/CoversPage.tsx";
+import { init } from '@plausible-analytics/tracker'
+import { initAnalytics } from "./analytics.ts";
+
+init({
+  domain: 'covered.lavibeagency.com',
+  customProperties: { content_category: 'music' }
+})
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +43,8 @@ const router = createBrowserRouter(
     </Route>,
   ),
 );
+
+initAnalytics();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
