@@ -3,7 +3,6 @@
    ======================================== */
 
 .cover-details-improved {
-    min-height: 100vh;
     background: linear-gradient(135deg, var(--color-background) 0%, var(--color-background-alt) 100%);
 }
 

@@ -22,6 +22,8 @@ import { ErrorMessage } from '../components/ErrorBoundary';
 import { CoverImproved } from '../components/CoverImproved';
 import { CoverZoom } from '../components/CoverZoom';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { SEO } from '../components/SEO.tsx';
+import { seoConfig } from '../utils/seoConfig.ts';
 
 function CoverDetailsPage() {
     const { coverId } = useParams<{ coverId: string }>();
@@ -174,7 +176,9 @@ function CoverDetailsPage() {
     ) || [];
 
     return (
-        <div className="cover-details-improved">
+        <>
+            <SEO {...seoConfig.albumDetail(album.name, album.artists[0]?.name, album.images?.[0]?.url)} />
+            <div className="cover-details-improved">
             {/* Header with back button */}
             <div className="cover-details-header">
                 <div className="container">
@@ -359,6 +363,7 @@ function CoverDetailsPage() {
                 isFavorite={isFavorite}
             />
         </div>
+        </>
     );
 }
 

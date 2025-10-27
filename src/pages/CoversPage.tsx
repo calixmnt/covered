@@ -11,6 +11,8 @@ import { ErrorMessage } from '../components/ErrorBoundary.tsx';
 import { Filter } from '../interfaces/index.ts';
 import { filterSpotifyItems } from '../utils/index.ts';
 import FilterZone from '../components/FilterZone.tsx';
+import { SEO } from '../components/SEO.tsx';
+import { seoConfig } from '../utils/seoConfig.ts';
 
 export default function CoversPage() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -115,6 +117,7 @@ export default function CoversPage() {
 
     return (
         <>
+            <SEO {...seoConfig.covers} />
             <div className="covers-page-improved">
                 <div className="container">
                     <AdvancedSearch

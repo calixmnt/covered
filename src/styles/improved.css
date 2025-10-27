@@ -22,12 +22,11 @@ body {
 }
 
 .main {
-    min-height: calc(100vh - 80px);
+    padding-bottom: 2rem; /* Espace pour le footer */
 }
 
 /* Covers Page Improvements */
 .covers-page-improved {
-    min-height: 100vh;
     padding: 2rem 0;
 }
 

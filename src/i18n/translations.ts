@@ -235,6 +235,31 @@ export interface Translations {
         highQuality: string;
         toDiscover: string;
     };
+    
+    // Privacy
+    privacy: {
+        title: string;
+        whatWeCollect: string;
+        anonymousDescription: string;
+        noPersonalData: string;
+        noCookies: string;
+        noTracking: string;
+        gdprCompliant: string;
+        eventsTracked: string;
+        eventsDescription: string;
+        eventSearch: string;
+        eventClick: string;
+        eventFavorite: string;
+        eventGift: string;
+        optOutTitle: string;
+        optOutDescription: string;
+        optedOut: string;
+        optIn: string;
+        statusOptedOut: string;
+        statusOptedIn: string;
+        learnMore: string;
+        plausibleInfo: string;
+    };
 }
 
 export const translations: Record<Language, Translations> = {
@@ -459,6 +484,30 @@ export const translations: Record<Language, Translations> = {
             highQuality: 'High Quality',
             toDiscover: 'To Discover',
         },
+        
+        privacy: {
+            title: 'Privacy & Analytics',
+            whatWeCollect: 'What We Collect',
+            anonymousDescription: 'We use Plausible Analytics, a privacy-friendly and open-source analytics service. All data is collected anonymously and aggregated.',
+            noPersonalData: 'No personal data or identifiable information',
+            noCookies: 'No cookies stored on your device',
+            noTracking: 'No cross-site or cross-device tracking',
+            gdprCompliant: 'GDPR, CCPA and PECR compliant',
+            eventsTracked: 'Events We Track',
+            eventsDescription: 'We track the following anonymous events to improve the user experience:',
+            eventSearch: 'When you perform a search',
+            eventClick: 'When you click on a search result',
+            eventFavorite: 'When you add an album to favorites',
+            eventGift: 'When you view the gift of the day',
+            optOutTitle: 'Opt-Out of Analytics',
+            optOutDescription: 'You can opt-out of analytics tracking at any time. Your preference will be saved locally on your device.',
+            optedOut: 'Analytics Disabled',
+            optIn: 'Disable Analytics',
+            statusOptedOut: 'Analytics tracking is currently disabled for your visits.',
+            statusOptedIn: 'Analytics tracking is currently enabled to help us improve the experience.',
+            learnMore: 'Learn More',
+            plausibleInfo: 'Learn more about privacy-friendly analytics at',
+        },
     },
     
     fr: {
@@ -681,6 +730,30 @@ export const translations: Record<Language, Translations> = {
             urCollection: 'Dans votre collection',
             highQuality: 'Haute qualité',
             toDiscover: 'À découvrir',
+        },
+        
+        privacy: {
+            title: 'Confidentialité & Analyses',
+            whatWeCollect: 'Ce que nous collectons',
+            anonymousDescription: 'Nous utilisons Plausible Analytics, un service d\'analyse respectueux de la vie privée et open-source. Toutes les données sont collectées de manière anonyme et agrégée.',
+            noPersonalData: 'Aucune donnée personnelle ou information identifiable',
+            noCookies: 'Aucun cookie stocké sur votre appareil',
+            noTracking: 'Aucun suivi inter-sites ou inter-appareils',
+            gdprCompliant: 'Conforme RGPD, CCPA et PECR',
+            eventsTracked: 'Événements suivis',
+            eventsDescription: 'Nous suivons les événements anonymes suivants pour améliorer l\'expérience utilisateur :',
+            eventSearch: 'Lorsque vous effectuez une recherche',
+            eventClick: 'Lorsque vous cliquez sur un résultat',
+            eventFavorite: 'Lorsque vous ajoutez un album aux favoris',
+            eventGift: 'Lorsque vous consultez le cadeau du jour',
+            optOutTitle: 'Désactiver les analyses',
+            optOutDescription: 'Vous pouvez désactiver le suivi analytique à tout moment. Votre préférence sera enregistrée localement sur votre appareil.',
+            optedOut: 'Analyses désactivées',
+            optIn: 'Désactiver les analyses',
+            statusOptedOut: 'Le suivi analytique est actuellement désactivé pour vos visites.',
+            statusOptedIn: 'Le suivi analytique est actuellement activé pour nous aider à améliorer l\'expérience.',
+            learnMore: 'En savoir plus',
+            plausibleInfo: 'En savoir plus sur les analyses respectueuses de la vie privée sur',
         },
     },
 };

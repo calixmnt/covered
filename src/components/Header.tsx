@@ -8,6 +8,7 @@ import {
     FaSun,
     FaMoon,
     FaGift,
+    FaShieldAlt,
 } from 'react-icons/fa';
 import { useFavorites } from '../hooks/useFavorites';
 import { useTheme } from '../hooks/useTheme';
@@ -266,6 +267,15 @@ export function Header() {
                     </nav>
 
                     <div className="header-improved__mobile-menu-footer">
+                        <Link 
+                            to="/privacy"
+                            className="header-improved__mobile-privacy-link"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            <FaShieldAlt />
+                            <span>Privacy & Opt-out</span>
+                        </Link>
+                        
                         <button 
                             onClick={toggleTheme}
                             className="header-improved__mobile-theme-toggle"

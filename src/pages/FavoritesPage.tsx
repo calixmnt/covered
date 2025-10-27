@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { 
-    FaHeart, 
-    FaDownload, 
-    FaUpload, 
-    FaTrash, 
+import {
+    FaHeart,
+    FaDownload,
+    FaUpload,
+    FaTrash,
     FaImages,
     FaTh,
     FaTimes,
@@ -19,6 +19,8 @@ import { useShare } from '../hooks/useShare';
 import { useLanguage } from '../contexts/LanguageContext';
 import { CoverImproved } from '../components/CoverImproved';
 import { ErrorMessage } from '../components/ErrorBoundary';
+import { SEO } from '../components/SEO.tsx';
+import { seoConfig } from '../utils/seoConfig.ts';
 // import { LoadingSpinner } from '../components/LoadingSpinner';
 
 type ViewMode = 'list' | 'gallery';
@@ -28,7 +30,7 @@ export default function FavoritesPage() {
     const { favoriteItems, removeFavorite, clearFavorites, exportFavorites, importFavorites } = useFavorites();
     const { shareItem } = useShare();
     const { t } = useLanguage();
-    
+
     const [viewMode, setViewMode] = useState<ViewMode>('list');
     const [filter, setFilter] = useState<'all' | 'album' | 'track' | 'artist'>('all');
     const [sortBy, setSortBy] = useState<SortMode>('recent');
@@ -83,7 +85,7 @@ export default function FavoritesPage() {
     };
 
     // For gallery mode, only show albums and tracks with images
-    const galleryItems = favoriteItems.filter(item => 
+    const galleryItems = favoriteItems.filter(item =>
         (item.type === 'album' || item.type === 'track') && item.image
     );
 
@@ -138,7 +140,7 @@ export default function FavoritesPage() {
 
     const navigateFullscreen = (direction: 'prev' | 'next') => {
         if (selectedCover === null) return;
-        
+
         if (direction === 'prev') {
             setSelectedCover(selectedCover > 0 ? selectedCover - 1 : displayedFavorites.length - 1);
         } else {
@@ -182,7 +184,7 @@ export default function FavoritesPage() {
                             <span>{t.favorites.backToList}</span>
                         </button>
                     </div>
-                    
+
                     <div className="gallery-empty-state">
                         <div className="gallery-empty-content">
                             <FaHeart className="gallery-empty-icon" />
@@ -202,9 +204,9 @@ export default function FavoritesPage() {
                         <FaTh />
                         <span>{t.favorites.backToList}</span>
                     </button>
-                    
+
                     <div className="gallery-sort-minimal">
-                        <button 
+                        <button
                             onClick={() => setSortBy(sortBy === 'recent' ? 'random' : 'recent')}
                             className="gallery-sort-toggle"
                             title={sortBy === 'recent' ? t.gallery.switchToRandom : t.gallery.switchToRecent}
@@ -217,13 +219,13 @@ export default function FavoritesPage() {
                 {/* Gallery Grid */}
                 <div className="gallery-immersive-grid">
                     {displayedFavorites.map((cover, index) => (
-                        <div 
+                        <div
                             key={`${cover.id}-${index}`}
                             className="gallery-immersive-item"
                             onClick={() => setSelectedCover(index)}
                         >
-                            <img 
-                                src={cover.image} 
+                            <img
+                                src={cover.image}
                                 alt={cover.title}
                                 loading="lazy"
                             />
@@ -241,16 +243,16 @@ export default function FavoritesPage() {
                 {selectedCover !== null && (
                     <div className="gallery-fullscreen-modal">
                         <div className="gallery-fullscreen-overlay" onClick={() => setSelectedCover(null)} />
-                        
+
                         <div className="gallery-fullscreen-content">
-                            <button 
+                            <button
                                 className="gallery-fullscreen-close"
                                 onClick={() => setSelectedCover(null)}
                             >
                                 <FaTimes />
                             </button>
 
-                            <button 
+                            <button
                                 className="gallery-fullscreen-nav prev"
                                 onClick={() => navigateFullscreen('prev')}
                             >
@@ -258,7 +260,7 @@ export default function FavoritesPage() {
                             </button>
 
                             <div className="gallery-fullscreen-item">
-                                <img 
+                                <img
                                     src={displayedFavorites[selectedCover]?.image}
                                     alt={displayedFavorites[selectedCover]?.title}
                                 />
@@ -266,7 +268,7 @@ export default function FavoritesPage() {
                                     <h2>{displayedFavorites[selectedCover]?.title}</h2>
                                     <p>{displayedFavorites[selectedCover]?.artist}</p>
                                     <div className="gallery-fullscreen-actions">
-                                        <button 
+                                        <button
                                             onClick={() => handleShareCover(displayedFavorites[selectedCover])}
                                             className="gallery-fullscreen-btn"
                                         >
@@ -279,7 +281,7 @@ export default function FavoritesPage() {
                                 </div>
                             </div>
 
-                            <button 
+                            <button
                                 className="gallery-fullscreen-nav next"
                                 onClick={() => navigateFullscreen('next')}
                             >
@@ -299,130 +301,133 @@ export default function FavoritesPage() {
     // List Mode
 
     return (
-        <div className="favorites-page">
-            <div className="container">
-                <div className="favorites-header">
-                    <div className="favorites-title">
-                        <FaHeart className="favorites-title__icon" />
-                        <h1>{t.favorites.title}</h1>
-                        <span className="favorites-count">({favoriteItems.length})</span>
-                    </div>
+        <>
+            <SEO {...seoConfig.favorites} />
+            <div className="favorites-page">
+                <div className="container">
+                    <div className="favorites-header">
+                        <div className="favorites-title">
+                            <FaHeart className="favorites-title__icon" />
+                            <h1>{t.favorites.title}</h1>
+                            <span className="favorites-count">({favoriteItems.length})</span>
+                        </div>
 
-                    <div className="favorites-actions">
-                        {galleryItems.length > 0 && (
-                            <button 
-                                onClick={() => setViewMode('gallery')} 
-                                className="favorites-action-btn primary"
-                                title={t.favorites.galleryView}
-                            >
-                                <FaImages /> {t.favorites.galleryView}
+                        <div className="favorites-actions">
+                            {galleryItems.length > 0 && (
+                                <button
+                                    onClick={() => setViewMode('gallery')}
+                                    className="favorites-action-btn primary"
+                                    title={t.favorites.galleryView}
+                                >
+                                    <FaImages /> {t.favorites.galleryView}
+                                </button>
+                            )}
+
+                            <button onClick={handleExport} className="favorites-action-btn">
+                                <FaDownload /> {t.favorites.export}
                             </button>
-                        )}
-                        
-                        <button onClick={handleExport} className="favorites-action-btn">
-                            <FaDownload /> {t.favorites.export}
-                        </button>
-                        
-                        <label className="favorites-action-btn">
-                            <FaUpload /> {t.favorites.import}
-                            <input
-                                type="file"
-                                accept=".json"
-                                onChange={handleImport}
-                                style={{ display: 'none' }}
-                            />
-                        </label>
 
-                        <button 
-                            onClick={() => setShowConfirmClear(true)}
-                            className="favorites-action-btn danger"
-                        >
-                            <FaTrash /> {t.favorites.clear}
-                        </button>
-                    </div>
-                </div>
+                            <label className="favorites-action-btn">
+                                <FaUpload /> {t.favorites.import}
+                                <input
+                                    type="file"
+                                    accept=".json"
+                                    onChange={handleImport}
+                                    style={{ display: 'none' }}
+                                />
+                            </label>
 
-                {importError && (
-                    <ErrorMessage 
-                        error={new Error(importError)} 
-                        onRetry={() => setImportError(null)}
-                    />
-                )}
-
-                <div className="favorites-controls">
-                    <div className="favorites-filters">
-                        <label>{t.favorites.filterByType}:</label>
-                        <select 
-                            value={filter} 
-                            onChange={(e) => setFilter(e.target.value as any)}
-                            className="favorites-select"
-                        >
-                            <option value="all">{t.favorites.all} ({favoriteItems.length})</option>
-                            <option value="album">{t.favorites.albums} ({favoriteItems.filter(f => f.type === 'album').length})</option>
-                            <option value="track">{t.favorites.tracks} ({favoriteItems.filter(f => f.type === 'track').length})</option>
-                            <option value="artist">{t.favorites.artists} ({favoriteItems.filter(f => f.type === 'artist').length})</option>
-                        </select>
-                    </div>
-
-                    <div className="favorites-sort">
-                        <label>{t.gallery.sortBy}:</label>
-                        <select 
-                            value={sortBy} 
-                            onChange={(e) => setSortBy(e.target.value as any)}
-                            className="favorites-select"
-                        >
-                            <option value="recent">{t.gallery.sortRecent}</option>
-                            <option value="alphabetical">{t.favorites.alphabetical}</option>
-                            <option value="type">{t.favorites.byType}</option>
-                            <option value="random">{t.favorites.random}</option>
-                        </select>
-                    </div>
-                </div>
-
-                {displayedFavorites.length > 0 ? (
-                    <div className="favorites-grid">
-                        {coversData.map((cover) => (
-                            <CoverImproved
-                                key={cover.id}
-                                {...cover}
-                                onFavorite={removeFavorite}
-                                onShare={handleShare}
-                                isFavorite={true}
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="favorites-empty">
-                        <p>{t.favorites.noMatch}</p>
-                    </div>
-                )}
-
-                {showConfirmClear && (
-                    <div className="favorites-modal-overlay">
-                        <div className="favorites-modal">
-                            <h3>{t.favorites.clearConfirm}</h3>
-                            <p>{t.favorites.clearWarning}</p>
-                            <div className="favorites-modal-actions">
-                                <button 
-                                    onClick={() => setShowConfirmClear(false)}
-                                    className="favorites-modal-btn secondary"
-                                >
-                                    {t.common.cancel}
-                                </button>
-                                <button 
-                                    onClick={() => {
-                                        clearFavorites();
-                                        setShowConfirmClear(false);
-                                    }}
-                                    className="favorites-modal-btn danger"
-                                >
-                                    {t.favorites.clear}
-                                </button>
-                            </div>
+                            <button
+                                onClick={() => setShowConfirmClear(true)}
+                                className="favorites-action-btn danger"
+                            >
+                                <FaTrash /> {t.favorites.clear}
+                            </button>
                         </div>
                     </div>
-                )}
+
+                    {importError && (
+                        <ErrorMessage
+                            error={new Error(importError)}
+                            onRetry={() => setImportError(null)}
+                        />
+                    )}
+
+                    <div className="favorites-controls">
+                        <div className="favorites-filters">
+                            <label>{t.favorites.filterByType}:</label>
+                            <select
+                                value={filter}
+                                onChange={(e) => setFilter(e.target.value as any)}
+                                className="favorites-select"
+                            >
+                                <option value="all">{t.favorites.all} ({favoriteItems.length})</option>
+                                <option value="album">{t.favorites.albums} ({favoriteItems.filter(f => f.type === 'album').length})</option>
+                                <option value="track">{t.favorites.tracks} ({favoriteItems.filter(f => f.type === 'track').length})</option>
+                                <option value="artist">{t.favorites.artists} ({favoriteItems.filter(f => f.type === 'artist').length})</option>
+                            </select>
+                        </div>
+
+                        <div className="favorites-sort">
+                            <label>{t.gallery.sortBy}:</label>
+                            <select
+                                value={sortBy}
+                                onChange={(e) => setSortBy(e.target.value as any)}
+                                className="favorites-select"
+                            >
+                                <option value="recent">{t.gallery.sortRecent}</option>
+                                <option value="alphabetical">{t.favorites.alphabetical}</option>
+                                <option value="type">{t.favorites.byType}</option>
+                                <option value="random">{t.favorites.random}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {displayedFavorites.length > 0 ? (
+                        <div className="favorites-grid">
+                            {coversData.map((cover) => (
+                                <CoverImproved
+                                    key={cover.id}
+                                    {...cover}
+                                    onFavorite={removeFavorite}
+                                    onShare={handleShare}
+                                    isFavorite={true}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="favorites-empty">
+                            <p>{t.favorites.noMatch}</p>
+                        </div>
+                    )}
+
+                    {showConfirmClear && (
+                        <div className="favorites-modal-overlay">
+                            <div className="favorites-modal">
+                                <h3>{t.favorites.clearConfirm}</h3>
+                                <p>{t.favorites.clearWarning}</p>
+                                <div className="favorites-modal-actions">
+                                    <button
+                                        onClick={() => setShowConfirmClear(false)}
+                                        className="favorites-modal-btn secondary"
+                                    >
+                                        {t.common.cancel}
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            clearFavorites();
+                                            setShowConfirmClear(false);
+                                        }}
+                                        className="favorites-modal-btn danger"
+                                    >
+                                        {t.favorites.clear}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 }
